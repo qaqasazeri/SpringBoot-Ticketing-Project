@@ -90,7 +90,7 @@
                                                     <label for="password" class="col-form-label">Password</label>
                                                     <input id="password" type="password" placeholder="Password"
                                                            th:field="*{password}"
-                                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{4,}"
+                                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}"
                                                            class="form-control" required>
                                                     <div class="invalid-feedback">
                                                         Must contain at least one number and one uppercase and lowercase
@@ -103,8 +103,9 @@
                                                 <div class="form-group">
                                                     <label for="confirmPassword" class="col-form-label">Confirm
                                                         Password</label>
-                                                    <input id="confirmPassword" type="text"
+                                                    <input id="confirmPassword" type="password"
                                                            placeholder="Confirm Password" th:field="*{password}"
+                                                           pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}"
                                                            class="form-control" required>
                                                     <div class="invalid-feedback">
                                                         Please enter confirm password.
@@ -119,13 +120,13 @@
                                                     <label>Gender</label><br>
                                                     <label class="custom-control custom-radio custom-control-inline">
                                                         <input type="radio" name="radio-inline" checked=""
-                                                               th:field="*{gender}" th:value="Male"
+                                                               th:field="*{gender}" th:value="MALE"
                                                                class="custom-control-input"><span
                                                             class="custom-control-label">Male</span>
                                                     </label>
                                                     <label class="custom-control custom-radio custom-control-inline">
                                                         <input type="radio" name="radio-inline" th:field="*{gender}"
-                                                               th:value="Male" class="custom-control-input"><span
+                                                               th:value="FEMALE" class="custom-control-input"><span
                                                             class="custom-control-label">Female</span>
                                                     </label>
 
@@ -141,7 +142,7 @@
                                                             <option th:value=" ''" th:text="Select"></option>
 
                                                             <option th:each="role:${roleList}" th:text="${role.description}"
-                                                                    th:value="${role.description}">Select
+                                                                    th:value="${role.getId()}">Select
                                                             </option>
                                                         </select>
                                                     </div>
@@ -194,12 +195,12 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr>
-                                                <td>Ozzy</td>
-                                                <td>ozzy@</td>
-                                                <td>Male</td>
-                                                <td>9132289720</td>
-                                                <td>Manager</td>
+                                            <tr th:each="user:${userList}">
+                                                <td th:text="${user.firstName+' '+user.lastName}"></td>
+                                                <td th:text="${user.userName}"></td>
+                                                <td th:text="${user.gender.value}"></td>
+                                                <td th:text="${user.phone}"></td>
+                                                <td th:text="${user.role.getDescription()}"></td>
                                                 <td>
                                                     <a href="">
                                                         <button type="button" class="btn btn-warning btn-sm">Update
@@ -212,41 +213,7 @@
 
                                                 </td>
                                             </tr>
-                                            <tr>
-                                                <td>Ozzy</td>
-                                                <td>ozzy@</td>
-                                                <td>Male</td>
-                                                <td>9132289720</td>
-                                                <td>Manager</td>
-                                                <td>
-                                                    <a href="">
-                                                        <button type="button" class="btn btn-warning btn-sm">Update
-                                                        </button>
-                                                    </a>
-                                                    <a href="" class="delete-row">
-                                                        <button type="button" class="btn btn-secondary btn-sm">Delete
-                                                        </button>
-                                                    </a>
 
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Ozzy</td>
-                                                <td>ozzy@</td>
-                                                <td>Male</td>
-                                                <td>9132289720</td>
-                                                <td>Manager</td>
-                                                <td>
-                                                    <a href="">
-                                                        <button type="button" class="btn btn-warning btn-sm">Update
-                                                        </button>
-                                                    </a>
-                                                    <a href="" class="delete-row">
-                                                        <button type="button" class="btn btn-secondary btn-sm">Delete
-                                                        </button>
-                                                    </a>
-                                                </td>
-                                            </tr>
                                             </tbody>
 
                                         </table>
