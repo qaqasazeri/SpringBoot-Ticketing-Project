@@ -32,7 +32,7 @@
                                 <div class="panel-body">
 
                                     <!-- ------------------------FORM START----------------------------- -->
-                                    <form class="needs-validation" novalidate th:action="@{/user/create}" method="post"
+                                    <form class="needs-validation" novalidate th:action="@{/user/update/{id}(id=${user.userName})}" method="post"
                                           th:object="${user}">
 
                                         <div class="row">
@@ -137,12 +137,11 @@
                                                 <div class="form-group">
                                                     <div class="form-group">
                                                         <label>Choose a Role</label>
-                                                        <select name="role" class="custom-select"
-                                                               required="required">
+                                                        <select name="role" class="custom-select" required="required">
                                                             <option th:value=" ''" th:text="Select"></option>
 
-                                                            <option th:each="role:${roleList}" th:text="${role.description}"
-                                                                    th:value="${role.getId()}">Select
+                                                            <option th:each="role:${roleList}" th:value="${role.getId()}" th:text="${role.description}"
+                                                                     th:selected="${role.id}==${user.role.id}">
                                                             </option>
                                                         </select>
                                                     </div>
@@ -202,7 +201,7 @@
                                                 <td th:text="${user.phone}"></td>
                                                 <td th:text="${user.role.getDescription()}"></td>
                                                 <td>
-                                                    <a th:href="@{/user/update/{id}(id=${user.userName})}">
+                                                    <a href="">
                                                         <button type="button" class="btn btn-warning btn-sm">Update
                                                         </button>
                                                     </a>
