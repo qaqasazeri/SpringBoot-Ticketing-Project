@@ -1,0 +1,28 @@
+package com.cybertek.converter;
+
+import com.cybertek.dto.RoleDTO;
+import com.cybertek.dto.UserDTO;
+import com.cybertek.service.RoleService;
+import com.cybertek.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@ConfigurationPropertiesBinding
+public class UserDTOConverter  implements Converter<String, UserDTO> {
+    @Autowired
+    UserService userService;
+
+
+    @Override
+    public UserDTO convert(String source) {
+        UserDTO object=new UserDTO();
+        object=userService.findById(source);
+
+        return object;
+    }
+}
