@@ -29,7 +29,7 @@ public class ProjectController {
     public String createProject(Model model){
         model.addAttribute("project",new ProjectDTO());
         model.addAttribute("projects",projectService.findAll());
-        model.addAttribute("managers",userService.findAll());
+        model.addAttribute("managers",userService.findManagers());
 
         return "/project/create";
     }
@@ -46,4 +46,28 @@ public class ProjectController {
         projectService.deleteById(projectCode);
         return "redirect:/project/create";
     }
-}
+
+    @GetMapping("/complete/{projectCode}")
+    public String completeProject(@PathVariable("projectCode") String projectCode){
+        projectService.completeProject(projectService.findById(projectCode));
+        return "redirect:/project/create";
+
+    }
+    @GetMapping("/update/{projectCode}")
+    public String editProject(@PathVariable("projectCode") String projectCode,Model model){
+        projectService.completeProject(projectService.findById(projectCode));
+        model.addAttribute("project",projectService.findById(projectCode));
+        model.addAttribute("projects",projectService.findAll());
+        model.addAttribute("managers",userService.findManagers());
+
+        return "/project/update";
+
+    }
+
+    @PostMapping("/update/{projectCode}")
+    public String updateProject(@PathVariable("projectCode") String projectCode,ProjectDTO project,Model model){
+        projectService.update(project);
+        return "redirect:/project/create";
+    }
+
+    }

@@ -5,5 +5,6 @@ import com.cybertek.dto.RoleDTO;
 
 public interface ProjectService extends CrudService<ProjectDTO,String> {
 
+    void completeProject(ProjectDTO project);
 
 }
