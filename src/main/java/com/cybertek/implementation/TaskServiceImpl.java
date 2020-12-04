@@ -1,5 +1,6 @@
 package com.cybertek.implementation;
 
+import com.cybertek.dto.ProjectDTO;
 import com.cybertek.dto.RoleDTO;
 import com.cybertek.dto.TaskDTO;
 import com.cybertek.service.RoleService;
@@ -20,7 +21,13 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO,Long>implements 
     }
     @Override
     public void update(TaskDTO object) {
-     super.update(object.getId(), object);
+
+        TaskDTO foundProject= findById(object.getId());
+        if(object.getTaskStatus()==null) {
+            object.setAssignedDate(foundProject.getAssignedDate());
+            object.setTaskStatus(foundProject.getTaskStatus());
+        }
+        super.update(object.getId(), object);
     }
 
 
@@ -38,4 +45,5 @@ public class TaskServiceImpl extends AbstractMapService<TaskDTO,Long>implements 
     public TaskDTO findById(Long id) {
         return super.findById(id);
     }
+
 }
