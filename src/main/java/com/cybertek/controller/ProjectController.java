@@ -1,9 +1,11 @@
 package com.cybertek.controller;
 
 import com.cybertek.dto.ProjectDTO;
+import com.cybertek.dto.TaskDTO;
 import com.cybertek.dto.UserDTO;
 import com.cybertek.enums.Status;
 import com.cybertek.service.ProjectService;
+import com.cybertek.service.TaskService;
 import com.cybertek.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +28,8 @@ public class ProjectController {
     ProjectService projectService;
     @Autowired
     UserService userService;
-
+    @Autowired
+    TaskService taskService;
     @GetMapping("/create")
     public String createProject(Model model) {
         model.addAttribute("project", new ProjectDTO());
@@ -78,10 +81,26 @@ public class ProjectController {
     public String getProjectsByManager(Model model) {
         UserDTO manager = userService.findById("john@cybertek.com");
 
-        List<ProjectDTO> projects = projectService.findAll().stream().filter(project->project.getAssignedManager().equals(manager)).collect(Collectors.toList());
+        List<ProjectDTO> projects = getCountedListOfProjectDTO(manager);
         model.addAttribute("projects", projects);
         return "manager/project-status";
     }
 
+List<ProjectDTO> getCountedListOfProjectDTO(UserDTO manager){
+    List<ProjectDTO> list = projectService.findAll()
+            .stream()
+            .filter(project->project.getAssignedManager().equals(manager))
+            .map(x->{
+                List<TaskDTO> taskList=taskService.findTaskByManager(manager);
+                int completeCount=(int)taskList.stream().filter(t->t.getProject().equals(x) && t.getTaskStatus()==Status.COMPLETE).count();
+                int inCompleteCount=(int)taskList.stream().filter(t->t.getProject().equals(x) && t.getTaskStatus()!=Status.COMPLETE).count();
 
+                x.setCompleteTaskCounts(completeCount);
+                x.setUnfinishedTaskCounts(inCompleteCount);
+                return x;
+            }).collect(Collectors.toList());
+
+return list;
+
+}
 }

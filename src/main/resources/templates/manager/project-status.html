@@ -68,18 +68,16 @@
                                                 <th scope="col">Unfinished/Completed</th>
                                                 <th scope="col">Status</th>
                                                 <th scope="col">Action</th>
-
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr th:each="project:${projects}">
-                                                <td th:text="${project.getProjectCode()}"></td>
-                                                <td th:text="${project.getProjectName()}"></td>
-                                                <td th:text="${project.getStartDate()+ ' to '+project.getEndDate()}"></td>
-                                                <td th:text="${project.getAssignedManager().firstName+' '+project.getAssignedManager().lastName}"></td>
-                                              <!--<td th:field="${project.()}"></td>-->
-                                                <td></td>
-                                                <td th:text="${project.getProjectStatus()}"></td>
+                                            <tr th:each="project : ${projects}">
+                                                <td th:text="${project.projectCode}"></td>
+                                                <td th:text="${project.projectName}"></td>
+                                                <td th:text="${project.startDate + ' to ' + project.endDate}"></td>
+                                                <td th:text="${project.assignedManager.firstName + ' ' + project.assignedManager.lastName}"></td>
+                                                <td th:text="${project.unfinishedTaskCounts + '/' + project.completeTaskCounts}"></td>
+                                                <td th:text="${project.projectStatus}"></td>
                                                 <td><a class="btn btn-info rounded-0">Complete</a></td>
                                             </tr>
                                             </tbody>
